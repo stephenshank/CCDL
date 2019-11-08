@@ -21,7 +21,7 @@ Adam wrote a nice R script that will:
 lets pass these files to the R script and let it run
 '''
 
-for name in names[0:1]:
+for name in names:
     f_in = "rsrc/NB_cell_line/%s/quant.sf" % name
     f_out_raw = "data/%s/Raw_txi.csv" % name
     f_out_LSTPM = "data/%s/LSTPM_txi.csv" % name
