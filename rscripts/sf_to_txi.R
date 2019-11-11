@@ -22,6 +22,7 @@ sample <- file.path(file_in)
 txdf <- transcripts(EnsDb.Hsapiens.v86, return.type="DataFrame")
 tx2gene <- as.data.frame(txdf[,c("tx_id", "gene_id")])
 
+## something is weird with DSTPM_txi ##
 Raw_txi <- tximport(sample, type="salmon", tx2gene=tx2gene, ignoreTxVersion = TRUE)
 LSTPM_txi <- tximport(sample, type="salmon", tx2gene=tx2gene, ignoreTxVersion = TRUE, countsFromAbundance = 'lengthScaledTPM')
 STPM_txi <- tximport(sample, type="salmon", tx2gene=tx2gene, ignoreTxVersion = TRUE, countsFromAbundance = 'scaledTPM')
