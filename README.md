@@ -2,11 +2,21 @@ Welcome to the CCDL Repo!!
 
 This will be a simple, and fun pipeline to run.
 
-Currently this is a python script, but we will transform it into a snakemake script very soon!
-I have it as a snakemake script but it is on a remote server.
+To begin, start up your conda virtual environment:
+
+```conda env create -f environment.yml ```
+
+```conda activate ccdl```
 
 
-you will need to grab the data from the slack channel and put it in the 
+When you want to deactivate your environment, simply type:
+```conda deactivate``` 
+
+The [conda docs](https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html) are super helpful!
+
+Now you are ready to begin!
+
+Next, you will need to grab the data from the slack channel and put it in the 
 ```rsrc``` folder, then:
 
 ```unzip rsrc/NB_cell_line.zip```
