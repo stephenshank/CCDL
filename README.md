@@ -8,8 +8,9 @@ To begin, start up your conda virtual environment:
 
 ```conda activate ccdl``` or ```source activate ccdl```
 
-Then to run the pipeline:
+To run the pipeline:
 
+```snakemake get_data``` then 
 ```snakemake targets -j 100```
 
 This might take some time, and a lot of memory, so be patient
