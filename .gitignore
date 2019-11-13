@@ -3,4 +3,6 @@ ccdl_data/*
 __MACOSX/*
 
 .snakemake/*
+.snakemake*
+
 
