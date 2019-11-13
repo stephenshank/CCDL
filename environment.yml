@@ -5,7 +5,9 @@ channels:
   - bioconda
   - defaults
 dependencies:
-  - r-anylib=1.0.5
+  - bioconductor-tximport=1.14.0
+  - bioconductor-ensembldb=2.10.0
+  - bioconductor-EnsDb.Hsapiens.v86=2.99.0
   - aioeasywebdav=2.4.0=py36_1000
   - aiohttp=3.6.1=py36h01d97ff_0
   - appdirs=1.4.3=py_1
