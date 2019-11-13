@@ -6,11 +6,11 @@ To begin, start up your conda virtual environment:
 
 ```conda env create -f environment.yml ```
 
-```conda activate ccdl```
+```conda activate ccdl``` or ```source activate ccdl```
 
 
 When you want to deactivate your environment, simply type:
-```conda deactivate``` 
+```conda deactivate``` or ```source deactivate``` 
 
 The [conda docs](https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html) are super helpful!
 
