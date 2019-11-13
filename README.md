@@ -8,28 +8,16 @@ To begin, start up your conda virtual environment:
 
 ```conda activate ccdl``` or ```source activate ccdl```
 
-quickly run this to gather the data:
+Then to run the pipeline:
 
-```bash bash/getter.sh```
+```snakemake targets -j 100```
+
+This might take some time, and a lot of memory, so be patient
 
 When you want to deactivate your environment, simply type:
 ```conda deactivate``` or ```source deactivate``` 
 
 The [conda docs](https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html) are super helpful!
 
-Now you are ready to begin!
 
-Next, you will need to grab the data from the slack channel and put it in the 
-```rsrc``` folder, then:
 
-```unzip rsrc/NB_cell_line.zip```
-
-To start the pipeline: run these two scripts in order:
-
-you should only need to run this script once
-
-```python python/installer.py```
-
-anytime you want to re-run the data, run this script
-
-```python python/pipeline.py```
