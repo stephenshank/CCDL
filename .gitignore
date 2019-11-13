@@ -1,1 +1,6 @@
-data/*
+output_data/*
+ccdl_data/*
+__MACOSX/*
+
+.snakemake/*
+

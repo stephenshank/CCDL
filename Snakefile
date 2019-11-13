@@ -1,44 +1,48 @@
 import pandas as pd
 
-
 ## list of all the SRA's
-
-my_file = pd.read_csv("rsrc/NB_cell_line_metadata_cleaned.tsv", sep="\t"))
-SRAs = my_file.["Sample_SRR_accession"].to_list()
-
-#rule targets:
-#  input:
-#    expand("data/{sra}/{sra}_txi.csv", sra=SRAs)
+my_file = pd.read_csv("rsrc/NB_cell_line_metadata_cleaned.tsv", sep="\t")
+SRAs = my_file["Sample_SRR_accession"].to_list()
 
 
 
 
-## this is just to run one, but will need to change to {SRAs} to capture all ##
+rule targets:
+  input:
+    expand("./output_data/{SRA}/{SRA}_RAW_txi.csv", SRA=SRAs),
+    expand("./output_data/{SRA}/{SRA}_LSTPM_txi.csv", SRA=SRAs),
+    expand("./output_data/{SRA}/{SRA}_STPM_txi.csv", SRA=SRAs)
+
+
+######################################
+# this rule will read in the metadata tsv
+# and will get all the data from Stepens website
+######################################
+rule get_data:
+  shell:
+    '''
+    bash bash/getter.sh
+    '''
+ 
 ######################################
 # this rule will read in the .sf files
 # and will run them thru Rscript txi
 ######################################
 rule txi:
   input:
-    in_sf = "rsrc/NB_cell_line/SRR4787043/quant.sf"
+    in_sf = "./ccdl_data/NB_cell_line/{SRA}/quant.sf"
   output:
-    out_f = "data/SRR4787043/SRR4787043_txi.tsv"
+    out_raw = "./output_data/{SRA}/{SRA}_RAW_txi.csv",
+    out_LSTPM = "./output_data/{SRA}/{SRA}_LSTPM_txi.csv",
+    out_STPM = "./output_data/{SRA}/{SRA}_STPM_txi.csv"
+    #out_DSTPM = "../output_data/{SRA}/{SRA}_DSTPM_txi.csv",
+  
+  # output when we get DSTPM working
+  #Rscript rscripts/sf_to_txi.R {input.in_sf} {output.out_raw} {output.out_LSTPM} {output.out_STPM} {output.DSTPM}
   shell:
     '''
-    Rscript rscripts/sf_to_txi.R {input.in_sf} {output.out_f}
+    Rscript rscripts/sf_to_txi.R {input.in_sf} {output.out_raw} {output.out_LSTPM} {output.out_STPM}
     '''
-
-#####################################
-# this rule will read in the .sf files
-# and will run them thru some ML
-######################################
-#rule txi:
-#  input:
-#    in_sf = "rsrc/{sf}_quant.sf"
-#  output:
-#    out_f = "data/{sf}_txi.csv"
-#  script:
-#    "rscripts/sf_to_txi.R {input.in_sf} {output.out_f}"
 
 
 

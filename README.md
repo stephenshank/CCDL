@@ -8,6 +8,9 @@ To begin, start up your conda virtual environment:
 
 ```conda activate ccdl``` or ```source activate ccdl```
 
+quickly run this to gather the data:
+
+```bash bash/getter.sh```
 
 When you want to deactivate your environment, simply type:
 ```conda deactivate``` or ```source deactivate``` 
