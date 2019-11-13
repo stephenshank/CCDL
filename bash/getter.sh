@@ -10,6 +10,6 @@ unzip ccdl_data/NB_cell_line.zip
 mv NB_cell_line ccdl_data/
 
 rm ccdl_data.zip
-
+rm -rf NB_cell_line
 
 
