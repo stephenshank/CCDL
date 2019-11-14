@@ -1,11 +1,13 @@
 #!/bin/bash
 
 
-if wget http://stephenshank.com/ccdl_data.zip; then
-  echo Gathered the data!
-else
-  curl http://stephenshank.com/ccdl_data.zip
-fi
+wget http://stephenshank.com/ccdl_data.zip || (curl http://stephenshank.com/ccdl_data.zip && exit 1)
+
+#if wget http://stephenshank.com/ccdl_data.zip; then
+#  echo Gathered the data!
+#else
+#  curl http://stephenshank.com/ccdl_data.zip
+#fi
 
 unzip ccdl_data.zip
 
