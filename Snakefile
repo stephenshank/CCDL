@@ -9,9 +9,9 @@ SRAs = my_file["Sample_SRR_accession"].to_list()
 
 rule targets:
   input:
-    expand("./output_data/{SRA}/{SRA}_RAW_txi.csv", SRA=SRAs),
-    expand("./output_data/{SRA}/{SRA}_LSTPM_txi.csv", SRA=SRAs),
-    expand("./output_data/{SRA}/{SRA}_STPM_txi.csv", SRA=SRAs)
+    expand("output_data/{SRA}/{SRA}_RAW_txi.csv", SRA=SRAs),
+    expand("output_data/{SRA}/{SRA}_LSTPM_txi.csv", SRA=SRAs),
+    expand("output_data/{SRA}/{SRA}_STPM_txi.csv", SRA=SRAs)
 
 
 ######################################
@@ -30,11 +30,11 @@ rule get_data:
 ######################################
 rule txi:
   input:
-    in_sf = "./ccdl_data/NB_cell_line/{SRA}/quant.sf"
+    in_sf = "ccdl_data/{SRA}/quant.sf"
   output:
-    out_raw = "./output_data/{SRA}/{SRA}_RAW_txi.csv",
-    out_LSTPM = "./output_data/{SRA}/{SRA}_LSTPM_txi.csv",
-    out_STPM = "./output_data/{SRA}/{SRA}_STPM_txi.csv"
+    out_raw = "output_data/{SRA}/{SRA}_RAW_txi.csv",
+    out_LSTPM = "output_data/{SRA}/{SRA}_LSTPM_txi.csv",
+    out_STPM = "output_data/{SRA}/{SRA}_STPM_txi.csv"
     #out_DSTPM = "../output_data/{SRA}/{SRA}_DSTPM_txi.csv",
   
   # output when we get DSTPM working
