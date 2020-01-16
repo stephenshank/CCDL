@@ -1,4 +1,6 @@
 import pandas as pd
+import os
+import json
 
 ## list of all the SRA's
 my_file = pd.read_csv("rsrc/NB_cell_line_metadata_cleaned.tsv", sep="\t")
@@ -45,4 +47,26 @@ rule txi:
     '''
 
 
+DATA_ROOT = '/data/shares/ccdl'
+rule bigcrunch:
+  output:
+    "output_data/id_pairs.json"
+  run:
+    pairs = []
+    base_directories = [
+      directory
+      for directory in os.listdir(DATA_ROOT)
+      if directory[0] in ['E', 'S']
+    ]
+    for base_directory in base_directories:
+      fullpath = DATA_ROOT + '/' + base_directory
+      sf_files = [
+        a_file.split('_')[0]
+        for a_file in os.listdir(fullpath)
+        if a_file.split('.')[-1] == 'sf'
+      ]
+      for sf_file in sf_files:
+        pairs.append([base_directory, sf_file])
+    with open(output[0], 'w') as json_file:
+      json.dump(pairs, json_file, indent=2)
 
