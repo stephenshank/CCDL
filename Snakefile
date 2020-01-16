@@ -70,3 +70,15 @@ rule bigcrunch:
     with open(output[0], 'w') as json_file:
       json.dump(pairs, json_file, indent=2)
 
+rule txi_bigcrunch:
+  input:
+    sf=DATA_ROOT + "/{folder}/{sfid}_quant.sf"
+  output:
+    raw=DATA_ROOT + "/{folder}/{sfid}_raw.csv",
+    lstpm=DATA_ROOT + "/{folder}/{sfid}_lstpm.csv",
+    stpm=DATA_ROOT + "/{folder}/{sfid}_stpm.csv"
+  shell:
+    '''
+    Rscript rscripts/sf_to_txi.R {input.sf} {output.raw} {output.lstpm} {output.stpm}
+    '''
+
