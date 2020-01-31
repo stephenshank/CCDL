@@ -47,7 +47,8 @@ rule txi:
     '''
 
 
-DATA_ROOT = '/data/shares/ccdl'
+DATA_ROOT = '/home/sshank/ccdl/output_data/'
+#DATA_ROOT = '/data/shares/ccdl'
 rule bigcrunch:
   output:
     "output_data/id_pairs.json"
@@ -72,13 +73,25 @@ rule bigcrunch:
 
 rule txi_bigcrunch:
   input:
-    sf=DATA_ROOT + "/{folder}/{sfid}_quant.sf"
+    sf=DATA_ROOT + "{folder}/{sfid}_quant.sf"
   output:
-    raw=DATA_ROOT + "/{folder}/{sfid}_raw.csv",
-    lstpm=DATA_ROOT + "/{folder}/{sfid}_lstpm.csv",
-    stpm=DATA_ROOT + "/{folder}/{sfid}_stpm.csv"
+    raw=DATA_ROOT + "{folder}/{sfid}_raw.csv",
+    lstpm=DATA_ROOT + "{folder}/{sfid}_lstpm.csv",
+    stpm=DATA_ROOT + "{folder}/{sfid}_stpm.csv"
   shell:
     '''
     Rscript rscripts/sf_to_txi.R {input.sf} {output.raw} {output.lstpm} {output.stpm}
     '''
 
+def full_bigcrunch_input(wildcards):
+  with open('output_data/id_pairs.json') as json_file:
+    pairs = json.load(json_file)[5:10]
+  raw = [DATA_ROOT + "%s/%s_raw.csv" % tuple(pair) for pair in pairs]
+  lstpm = [DATA_ROOT + "%s/%s_lstpm.csv" % tuple(pair) for pair in pairs]
+  stpm = [DATA_ROOT + "%s/%s_stpm.csv" % tuple(pair) for pair in pairs]
+  return raw + lstpm + stpm
+
+
+rule full_bigcrunch:
+  input:
+    full_bigcrunch_input
