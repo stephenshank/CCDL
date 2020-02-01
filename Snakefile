@@ -1,3 +1,4 @@
+import csv
 import pandas as pd
 import os
 import json
@@ -47,17 +48,20 @@ rule txi:
     '''
 
 
-DATA_ROOT = '/home/sshank/ccdl/output_data/'
-#DATA_ROOT = '/data/shares/ccdl'
+#DATA_ROOT = '/home/sshank/ccdl/'
+DATA_ROOT = '/data/shares/ccdl/'
 rule bigcrunch:
   output:
-    "output_data/id_pairs.json"
+    DATA_ROOT + "output_data/id_pairs.csv"
   run:
+    csv_file = open(output[0], 'w')
+    writer = csv.writer(csv_file)
+    writer.writerow(('study_id', 'sample_id'))
     pairs = []
     base_directories = [
       directory
       for directory in os.listdir(DATA_ROOT)
-      if directory[0] in ['E', 'S']
+      if not '.' in directory
     ]
     for base_directory in base_directories:
       fullpath = DATA_ROOT + '/' + base_directory
@@ -67,9 +71,8 @@ rule bigcrunch:
         if a_file.split('.')[-1] == 'sf'
       ]
       for sf_file in sf_files:
-        pairs.append([base_directory, sf_file])
-    with open(output[0], 'w') as json_file:
-      json.dump(pairs, json_file, indent=2)
+        writer.writerow((base_directory, sf_file))
+    csv_file.close()
 
 rule txi_bigcrunch:
   input:
