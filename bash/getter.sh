@@ -1,7 +1,7 @@
 #!/bin/bash
 
 
-wget http://stephenshank.com/ccdl_data.zip || (curl http://stephenshank.com/ccdl_data.zip && exit 1)
+wget http://stephenshank.com/ccdl_data.zip || (curl http://stephenshank.com/ccdl_data.zip --output ccdl_data.zip && exit 1)
 
 #if wget http://stephenshank.com/ccdl_data.zip; then
 #  echo Gathered the data!
