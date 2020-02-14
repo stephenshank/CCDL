@@ -61,7 +61,7 @@ rule bigcrunch:
     base_directories = [
       directory
       for directory in os.listdir(DATA_ROOT)
-      if not '.' in directory
+      if not '.' in directory and directory != 'output_data'
     ]
     for base_directory in base_directories:
       fullpath = DATA_ROOT + '/' + base_directory
@@ -73,6 +73,31 @@ rule bigcrunch:
       for sf_file in sf_files:
         writer.writerow((base_directory, sf_file))
     csv_file.close()
+
+rule metadata_scrape:
+  output:
+    DATA_ROOT + "metadata.json"
+  run:
+    base_directories = [
+      directory
+      for directory in os.listdir(f'{DATA_ROOT}')
+      if not '.' in directory
+    ]
+    organism_set = set()
+    platform_set = set()
+    for base_directory in base_directories:
+      fullpath = f'{DATA_ROOT}{base_directory}/metadata_{base_directory}.tsv'
+      tsv_file = open(fullpath)
+      reader = csv.DictReader(tsv_file, delimiter='\t')
+      for row in reader:
+        organism_set.add(row['refinebio_organism'])
+        platform_set.add(row['refinebio_platform'])
+    with open(output[0], 'w') as json_file:
+      json.dump({
+        'organisms': list(organism_set),
+        'platforms': list(platform_set),
+      }, json_file, indent=2)
+
 
 rule txi_bigcrunch:
   input:
@@ -87,11 +112,11 @@ rule txi_bigcrunch:
     '''
 
 def full_bigcrunch_input(wildcards):
-  with open('output_data/id_pairs.json') as json_file:
-    pairs = json.load(json_file)[5:10]
-  raw = [DATA_ROOT + "%s/%s_raw.csv" % tuple(pair) for pair in pairs]
-  lstpm = [DATA_ROOT + "%s/%s_lstpm.csv" % tuple(pair) for pair in pairs]
-  stpm = [DATA_ROOT + "%s/%s_stpm.csv" % tuple(pair) for pair in pairs]
+  with open(DATA_ROOT + 'output_data/id_pairs.csv') as csv_file:
+    pairs = list(csv.DictReader(csv_file))
+  raw = [DATA_ROOT + "%s/%s_raw.csv" % tuple(pair.values()) for pair in pairs]
+  lstpm = [DATA_ROOT + "%s/%s_lstpm.csv" % tuple(pair.values()) for pair in pairs]
+  stpm = [DATA_ROOT + "%s/%s_stpm.csv" % tuple(pair.values()) for pair in pairs]
   return raw + lstpm + stpm
 
 
