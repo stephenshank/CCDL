@@ -1,4 +1,8 @@
+import os
 import pandas as pd
+
+
+DATA_ROOT = os.environ.get('DATA_ROOT') or 'output_data'
 
 ## list of all the SRA's
 my_file = pd.read_csv("rsrc/NB_cell_line_metadata_cleaned.tsv", sep="\t")
@@ -44,5 +48,9 @@ rule txi:
     Rscript rscripts/sf_to_txi.R {input.in_sf} {output.out_raw} {output.out_LSTPM} {output.out_STPM}
     '''
 
-
+rule get_metadata:
+  output:
+    f'{DATA_ROOT}/master-metadata.tsv'
+  shell:
+    'wget -O {output} http://stephenshank.com/master-metadata.tsv'
 

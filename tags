@@ -1,0 +1,25 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.8	//
+Path	python/concat.py	/^from pathlib import Path$/;"	i	language:Python
+ProcessPoolExecutor	python/concat.py	/^from concurrent.futures import ProcessPoolExecutor$/;"	i	language:Python
+data	python/pipeline.py	/^data = pd.read_csv("rsrc\/NB_cell_line_metadata_cleaned.tsv", sep="\\t")$/;"	v	language:Python
+f_in	python/pipeline.py	/^    f_in = "rsrc\/NB_cell_line\/%s\/quant.sf" % name$/;"	v	language:Python
+f_out_DSTPM	python/pipeline.py	/^    f_out_DSTPM = "data\/%s\/DSTPM_txi.csv" % name$/;"	v	language:Python
+f_out_LSTPM	python/pipeline.py	/^    f_out_LSTPM = "data\/%s\/LSTPM_txi.csv" % name$/;"	v	language:Python
+f_out_STPM	python/pipeline.py	/^    f_out_STPM = "data\/%s\/STPM_txi.csv" % name$/;"	v	language:Python
+f_out_raw	python/pipeline.py	/^    f_out_raw = "data\/%s\/Raw_txi.csv" % name$/;"	v	language:Python
+matrix_by_type	python/concat.py	/^def matrix_by_type(typ, directory_list):$/;"	f	language:Python
+names	python/pipeline.py	/^names = data["Sample_SRR_accession"].tolist()$/;"	v	language:Python
+os	python/concat.py	/^import os$/;"	i	language:Python
+parallelize	python/concat.py	/^def parallelize(num_processors, target_directory, desired_types):$/;"	f	language:Python
+partial	python/concat.py	/^from functools import partial$/;"	i	language:Python
+path	python/concat.py	/^    path = Path(".\/output_data\/")$/;"	v	language:Python
+pd	python/concat.py	/^import pandas as pd$/;"	i	language:Python
+pd	python/pipeline.py	/^import pandas as pd$/;"	i	language:Python
+serial	python/concat.py	/^def serial(target_directory, desired_types):$/;"	f	language:Python
+subprocess	python/installer.py	/^import subprocess$/;"	i	language:Python
+subprocess	python/pipeline.py	/^import subprocess$/;"	i	language:Python
