@@ -4,6 +4,9 @@ import pandas as pd
 
 DATA_ROOT = os.environ.get('DATA_ROOT') or 'output_data'
 
+def f(path):
+  return DATA_ROOT + '/' + path
+
 ## list of all the SRA's
 my_file = pd.read_csv("rsrc/NB_cell_line_metadata_cleaned.tsv", sep="\t")
 SRAs = my_file["Sample_SRR_accession"].to_list()
@@ -34,18 +37,17 @@ rule get_data:
 ######################################
 rule txi:
   input:
-    in_sf = "./ccdl_data/NB_cell_line/{SRA}/quant.sf"
+    sf=f('{SRP}/{SRR}_quant.sf')
   output:
-    out_raw = "./output_data/{SRA}/{SRA}_RAW_txi.csv",
-    out_LSTPM = "./output_data/{SRA}/{SRA}_LSTPM_txi.csv",
-    out_STPM = "./output_data/{SRA}/{SRA}_STPM_txi.csv"
-    #out_DSTPM = "../output_data/{SRA}/{SRA}_DSTPM_txi.csv",
+    raw=f('{SRP}/{SRR}_RAW_txi.csv'),
+    LSTPM=f('{SRP}/{SRR}_LSTPM_txi.csv'),
+    STPM=f('{SRP}/{SRR}_STPM_txi.csv')
   
   # output when we get DSTPM working
   #Rscript rscripts/sf_to_txi.R {input.in_sf} {output.out_raw} {output.out_LSTPM} {output.out_STPM} {output.DSTPM}
   shell:
     '''
-    Rscript rscripts/sf_to_txi.R {input.in_sf} {output.out_raw} {output.out_LSTPM} {output.out_STPM}
+    Rscript rscripts/sf_to_txi.R {input.sf} {output.raw} {output.LSTPM} {output.STPM}
     '''
 
 rule get_metadata:
@@ -54,3 +56,14 @@ rule get_metadata:
   shell:
     'wget -O {output} http://stephenshank.com/master-metadata.tsv'
 
+rule get_subset_tarball:
+  output:
+    f'{DATA_ROOT}/ccdl_data_v3.tar.gz'
+  shell:
+    'wget -O {output} http://stephenshank.com/ccdl_data_v3.tar.gz'
+
+rule decompress_subset:
+  input:
+    rules.get_subset_tarball.output[0]
+  shell:
+    f'tar xvzf {input} -C {DATA_ROOT}'
